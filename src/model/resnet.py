@@ -1,6 +1,15 @@
 from src.layers.block import *
 
 
+def _make_stage(filters, s, num_identity_blocks):
+    stage = keras.Sequential()
+    stage.add(ConvolutionBlock(filters=filters, s=s))
+    for i in range(num_identity_blocks):
+        stage.add(IdentityBlock(filters=filters))
+
+    return stage
+
+
 class ResNet50(keras.Model):
     def __init__(self, hidden_units, num_classes):
         super(ResNet50, self).__init__()
@@ -17,18 +26,10 @@ class ResNet50(keras.Model):
         self.dropout = keras.layers.Dropout(0.3)
         self.fc = keras.layers.Dense(num_classes)
 
-        self.stage_1 = self.__make_stage(1, filters=(64, 256), s=1, num_identity_blocks=2)
-        self.stage_2 = self.__make_stage(2, filters=(128, 512), s=2, num_identity_blocks=3)
-        self.stage_3 = self.__make_stage(3, filters=(256, 1024), s=2, num_identity_blocks=5)
-        self.stage_4 = self.__make_stage(4, filters=(512, 2048), s=2, num_identity_blocks=2)
-
-    def __make_stage(self, stage, filters, s, num_identity_blocks):
-        stage = keras.Sequential()
-        stage.add(ConvolutionBlock(filters=filters, s=s))
-        for i in range(num_identity_blocks):
-            stage.add(IdentityBlock(filters=filters))
-
-        return stage
+        self.stage_1 = _make_stage(filters=(64, 256), s=1, num_identity_blocks=2)
+        self.stage_2 = _make_stage(filters=(128, 512), s=2, num_identity_blocks=3)
+        self.stage_3 = _make_stage(filters=(256, 1024), s=2, num_identity_blocks=5)
+        self.stage_4 = _make_stage(filters=(512, 2048), s=2, num_identity_blocks=2)
 
     def call(self, inputs):
         x = self.zero_padding(inputs)
@@ -51,7 +52,7 @@ class ResNet50(keras.Model):
         return logits
 
     def predict(self, inputs, as_int=False):
-        logits = self.call(inputs)
+        logits = self(inputs, training=False)
         if as_int:
             pred_labels = tf.cast(logits > 0.0, dtype=tf.int32)
         else:

@@ -27,7 +27,7 @@ class BaseResNet50V2(keras.Model):
         if len(batch_shape) == 3:
             batch_input = batch_input[tf.newaxis]
 
-        logits = self(batch_input)
+        logits = self(batch_input, training=False)
         pred = logits > 0.0
         if as_int:
             return tf.cast(pred, dtype=tf.int32)

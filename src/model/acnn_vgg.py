@@ -76,7 +76,6 @@ class AtentionVGG(keras.Model):
         local_1, attn_weights_1 = self.attn_1(pool_3, global_feature)
         local_2, attn_weights_2 = self.attn_2(pool_4, global_feature)
         x = tf.concat((global_vector, local_1, local_2), axis=1)
-        x = self.dropout(x)
         x = self.dense(x)
         logits = self.output_fc(x)
 
