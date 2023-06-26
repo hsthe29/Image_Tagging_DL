@@ -4,7 +4,7 @@ from src.utils import load_pretrained
 
 
 class BaseResNet50V2(keras.Model):
-    def __init__(self,hidden_units, num_classes):
+    def __init__(self, hidden_units, num_classes):
         super(BaseResNet50V2, self).__init__()
         # pretrained model for feature extraction
         self.pretrained = load_pretrained()

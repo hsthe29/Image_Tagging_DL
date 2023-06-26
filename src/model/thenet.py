@@ -1,6 +1,6 @@
 import tensorflow as tf
 from tensorflow import keras
-from src.model.block import IdentityBlock, LargeKernelConvolution, ConvolutionBlock
+from src.layers.block import IdentityBlock, LargeKernelConvolution, ConvolutionBlock
 
 
 class LKResidualNetwork(keras.Model):

@@ -1,6 +1,6 @@
 import tensorflow as tf
 from tensorflow import keras
-from src.model.block import AttentionBlock
+from src.layers.block import AttentionBlock
 
 
 def _make_convolution_block(filters, num_conv_layers):

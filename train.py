@@ -2,10 +2,10 @@ from src.data import *
 from src.metrics import *
 from src.losses import *
 from src.utils import *
-from src.model.base_model import *
+from src.model.base_resnet_50 import *
 from src.model.resnet import *
 from src.model.acnn_vgg import *
-from src.model.large_kernel import *
+from src.model.thenet import *
 import yaml
 
 if __name__ == "__main__":

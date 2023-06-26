@@ -1,4 +1,4 @@
-from src.model.block import *
+from src.layers.block import *
 
 
 class ResNet50(keras.Model):
